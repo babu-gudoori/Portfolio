@@ -1,6 +1,18 @@
+# Environment
 .env
+.env.*
+
+# Python cache
 __pycache__/
 *.pyc
-*.sqlite3
+*.pyo
+*.pyd
+
+# Flask specific
 instance/
-.env.*
+*.sqlite3
+
+# System/IDE
+.DS_Store
+.vscode/
+.idea/

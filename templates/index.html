@@ -1,42 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" conetent="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio - Babu Gudoori</title>
+
+    <!-- Custom Stylesheet -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='stylesheet.css') }}"
     />
+
+    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+
+    <!-- Google Fonts: Poppins -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap"
       rel="stylesheet"
     />
 
-    <!--projects-->
+    <!-- VenoBox (projects lightbox) -->
     <link href="assets/vendor/venobox/venobox.css" rel="stylesheet" />
+
+    <!-- Boxicons -->
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
 
-    <!--contact-->
-
+    <!-- Remixicon -->
     <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <!--skills-iamges-->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
 
-    <!---browser tap icon -fevicon -->
+    <!-- Favicon -->
     <link
       rel="icon"
       type="image/png"
@@ -44,23 +46,18 @@
       style="border-radius: 100%"
     />
 
-    <!--logo-navbar-->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-
+    <!-- PapaParse (CSV parsing) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   </head>
 
   <body data-success="{{ success }}">
+    <!-- XLSX Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Local JS -->
     <script src="{{ url_for('static', filename='js/papaparse.min.js') }}"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
+
+    <!-- Header / Navbar -->
     <header class="header">
       <a href="#" id="logo" class="logo">Babu Gudoori</a>
       <div class="navbar-container">
@@ -74,55 +71,68 @@
           <a href="#" onclick="showSection('about')">
             <i class="fas fa-user"></i> About
           </a>
-          <a href="#" onclick="showSection('education')">
-            <i class="fas fa-graduation-cap"></i>Education
-          </a>
+          <!--<a href="#" onclick="showSection('education')">
+            <i class="fas fa-graduation-cap"></i> Education
+          </a>-->
           <a href="#" onclick="showSection('projects')">
             <i class="fas fa-code"></i> Projects
           </a>
           <a href="#" onclick="showSection('skills')">
             <i class="fas fa-lightbulb"></i> Skills
           </a>
-          <a
+          <!--<a
             href="https://drive.google.com/file/d/1gnP03ZxZ1aDxV-ypHAy4YWdP1_fI0jt6/view?usp=drive_link"
             target="_blank"
           >
             <i class="fas fa-file-alt"></i> Resume
-          </a>
-
+          </a>-->
           <a href="#" onclick="showSection('contact')">
             <i class="fas fa-envelope"></i> Contact
+          </a>
+          <!-- ✅ New Dashboard Vault link -->
+          <a
+            href="https://data-analysis-dashboards-vault-2.onrender.com/"
+            target="_blank"
+            class="data-button"
+            title="Visit site"
+          >
+            <i class="fas fa-chart-bar"></i> Data Analysis
           </a>
         </nav>
       </div>
     </header>
 
+    <!-- Home Section -->
     <section id="home-section" class="home">
       <div class="home-content">
         <h1>
           <span class="slide-left">Hi, I'm</span>
-          <span class="slide-up highlight"
-            >AI & Web Engineer | Data Analytics Enthusiast</span
-          >
+          <span class="slide-up highlight">
+            AI & Web Engineer | Data Analytics Enthusiast
+          </span>
         </h1>
 
-        <!-- Hire Me Button -->
         <button class="hire-me-button" onclick="toggleForm(true)">
           Hire Me
         </button>
+        <a
+          class="resume-link"
+          href="https://drive.google.com/file/d/1gnP03ZxZ1aDxV-ypHAy4YWdP1_fI0jt6/view?usp=drive_link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fas fa-file-alt"></i> Resume
+        </a>
 
         <!-- Modal Form -->
         <div id="hire-form-modal" class="modal-overlay">
           <div class="modal-form dark-theme">
             <span class="close-btn" onclick="toggleForm(false)">&times;</span>
-
-            <!-- ✅ Add action and method -->
             <form class="hire-form" action="/submit" method="post">
               <h3>SEND ME AN EMAIL</h3>
               <p class="subheading">Let's Connect!</p>
 
               <div class="form-row">
-                <!-- ✅ Add name attributes -->
                 <input type="text" name="name" placeholder="Name" required />
                 <input type="email" name="email" placeholder="Email" required />
               </div>
@@ -160,7 +170,11 @@
           >
             <i class="fab fa-github"></i>
           </a>
-          <a href="mailto:babugudurigbk@gmail.com" title="Gmail">
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=babugudurigbk@gmail.com"
+            target="_blank"
+            title="Gmail"
+          >
             <i class="fas fa-envelope"></i>
           </a>
           <a href="https://wa.me/917893044756" target="_blank" title="WhatsApp">
@@ -171,15 +185,13 @@
 
       <div class="profile-container">
         <div class="profile-image">
-          <img
-            src="/static/Images/babu3-no bg.png"
-          />
+          <img src="/static/Images/babu3-no bg.png" alt="Profile Image" />
         </div>
       </div>
     </section>
-    <!--About section-->
-    <!-- About section -->
-    <section id="about-section" class="about" style="display: none">
+
+    <!-- About Section -->
+    <section id="about-section" class="about">
       <div class="about-content">
         <h2 class="section-title">Powered by AI, Data & Design</h2>
         <p>
@@ -187,66 +199,87 @@
           <strong>AI & Web Engineer</strong> with a strong foundation in
           <strong>Data Analytics</strong>,
           <strong>Frontend Development</strong>, and
-          <strong>Machine Learning</strong>. My expertise spans across building
-          responsive web applications, creating interactive dashboards using
+          <strong>Machine Learning</strong>. My expertise spans building
+          responsive web applications, designing interactive dashboards using
           <strong>Tableau</strong> and <strong>Power BI</strong>, and developing
-          smart solutions with <strong>Generative AI</strong> and
-          <strong>Data Science</strong>.<br /><br />
-          I thrive on turning data into actionable insights and bringing ideas
-          to life through intelligent design and functionality. Beyond coding, I
-          enjoy mentoring peers, exploring emerging technologies, and solving
-          real-world challenges through innovation and thoughtful development.
+          intelligent solutions powered by <strong>Generative AI</strong> and
+          <strong>Data Science</strong>.
+        </p>
+        <p>
+          I thrive on transforming complex data into actionable insights and
+          bringing ideas to life through intelligent design and functionality.
+          Beyond coding, I enjoy mentoring peers, exploring emerging
+          technologies, and solving real-world challenges through innovation and
+          thoughtful development.
         </p>
 
-        <!-- Interests -->
         <div class="interests">
           <h2 class="section-title">Tech Passions</h2>
 
           <div class="interests-grid">
-            <!-- Software Engineering -->
             <div class="icon-box">
               <i class="ri-code-s-slash-line" style="color: #9b59b6"></i>
               <h3>Software Engineering</h3>
             </div>
 
-            <!-- Web Development -->
             <div class="icon-box">
               <i class="ri-global-line" style="color: #1c7d32"></i>
-              <!-- Better icon for web -->
               <h3>Web Development</h3>
             </div>
 
-            <!-- Data Analyst -->
             <div class="icon-box">
               <i class="ri-bar-chart-2-line" style="color: #005eff"></i>
               <h3>Data Analyst</h3>
             </div>
 
-            <!-- Data Scientist -->
             <div class="icon-box">
               <i class="ri-line-chart-line" style="color: #e74c3c"></i>
               <h3>Data Scientist</h3>
             </div>
 
-            <!-- Machine Learning -->
             <div class="icon-box">
               <i class="ri-bubble-chart-line" style="color: #f39c12"></i>
               <h3>Machine Learning</h3>
             </div>
 
-            <!-- Generative AI -->
             <div class="icon-box">
               <i class="ri-robot-line" style="color: #8e44ad"></i>
-              <!-- More symbolic of Gen AI -->
               <h3>Generative AI</h3>
             </div>
           </div>
         </div>
+
+        <!-- Education Section -->
+        <!--<div class="education">
+          <h2 class="section-title">Education</h2>
+          <div class="education-list">
+            <div class="education-card">
+              <h3>B.Tech in Computer Science & Engineering (AI & ML)</h3>
+              <p>
+                <strong>Indur Institute of Engineering and Technology</strong> |
+                CGPA: 6.92 | 2021–2025
+              </p>
+            </div>
+            <div class="education-card">
+              <h3>Intermediate (MPC)</h3>
+              <p>
+                <strong>Government Junior College, Mustabad</strong> | 63.6% |
+                2019–2020
+              </p>
+            </div>
+            <div class="education-card">
+              <h3>SSC</h3>
+              <p>
+                <strong>ZP High School, Gudem</strong> | GPA: 6.7 | 2017–2018
+              </p>
+            </div>
+          </div>
+        </div>-->
       </div>
     </section>
 
-    <!--Education-section-start-->
-    <section id="education-section" class="education-section">
+    <!-- Education Section -->
+    <section id="education-section" class="education">
       <div class="container">
         <div class="section-title">
           <h2>Education</h2>
@@ -258,12 +291,11 @@
           <div
             class="edu-card"
             style="
-              background-image: url('/static/Images/indur\ college.jpg');
+              background-image: url('/static/Images/indur college.jpg');
               background-position: center;
               background-size: cover;
             "
           >
-            <!--img src="/static/Images/indur collegeaa.jpg" alt="Indur College"-->
             <h3>B.Tech in CSE (AI & ML)</h3>
             <p class="edu-institute">
               Indur Institute of Engineering and Technology
@@ -279,10 +311,6 @@
                 Minor Project: Political Tweet Sentiment Analysis for Public
                 Opinion Polling
               </li>
-              <!--<li>Machine Learning</li>
-            <li>Web Development</li>
-            <li>Java OOPs</li>
-            <li>Artificial Intelligence</li>-->
             </ul>
           </div>
 
@@ -290,7 +318,7 @@
           <div
             class="edu-card"
             style="
-              background-image: url('/static/Images/govt\ junior\ college.jpg');
+              background-image: url('/static/Images/govt junior college.jpg');
               background-position: center;
               background-size: cover;
             "
@@ -298,72 +326,43 @@
             <h3>Intermediate - MPC</h3>
             <p class="edu-institute">Govt Junior College, Mustabad</p>
             <span class="edu-date">2019 - 2020 | 63.6%</span>
-            <h4>Relevant Subjects</h4>
-            <ul>
-              <li>Mathematics</li>
-              <li>Physics</li>
-              <li>Telugu</li>
-              <li>English</li>
-            </ul>
           </div>
 
           <!-- SSC -->
           <div
             class="edu-card"
             style="
-              background-image: url('/static/Images/zphs\ school.jpg');
+              background-image: url('/static/Images/zp high school.jpg');
               background-position: center;
               background-size: cover;
             "
           >
             <h3>SSC</h3>
-            <p class="edu-institute">Z.P. High School, Gudem</p>
+            <p class="edu-institute">ZP High School, Gudem</p>
             <span class="edu-date">2017 - 2018 | GPA: 6.7</span>
-            <h4>Relevant Subjects</h4>
-            <ul>
-              <li>Mathematics</li>
-              <li>Telugu</li>
-              <li>Science, Social, English</li>
-            </ul>
           </div>
-        </div>
-
-        <!-- Certificates Section -->
-        <div class="section-title" style="margin-top: 60px">
-          <h2>Online Certifications</h2>
-        </div>
-
-        <div class="certificates">
-          <!-- Certificate 1 -->
-          <!-- Certificate Card with Logo Only -->
-          <a
-            href="https://drive.google.com/file/d/1Q3FJl6SIRmyZ7W4ovKAtN_PwEVXKtx3E/view?usp=drivesdk"
-            target="_blank"
-            class="certificate-card"
-            title="View Certificate"
-          >
-            <img
-              src="https://brainovision.in/assets/img/bovlogo2.svg"
-              alt="Brainovision Logo"
-            />
-          </a>
-
-          <!-- You can add more certificate cards here -->
         </div>
       </div>
     </section>
 
-    <!--Education-section-end-->
-
-    <!-- start-project-section -->
-    <section class="projects-section" id="projects-section">
+    <!-- Projects Section -->
+    <section id="projects-section" class="projects">
       <div class="projects-container">
-        <h2 class="section-title">My Projects</h2>
+        <!--<h2 class="section-title">My Projects</h2>-->
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterProjects('all')">
+            All
+          </button>
+          <button class="filter-btn" onclick="filterProjects('web')">
+            Web Services
+          </button>
+          <button class="filter-btn" onclick="filterProjects('data')">
+            Data Analysis
+          </button>
+        </div>
+
         <div class="projects-grid">
-          <a
-            href="{{ url_for('show_portfolio_project') }}"
-            class="project-card"
-          >
+          <div class="project-card" data-category="web" onclick="openModal(0)">
             <div class="card-image">
               <img
                 src="/static/Images/portfolioproject.png"
@@ -374,14 +373,11 @@
             <div class="card-content">
               <h3>My Portfolio</h3>
               <p>Personal portfolio showcasing skills and resume.</p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
             </div>
-          </a>
+          </div>
 
-          <!-- Project 2 -->
-          <a
-            href="{{ url_for('show_aichatbot_project') }}"
-            class="project-card"
-          >
+          <div class="project-card" data-category="web" onclick="openModal(1)">
             <div class="card-image">
               <img src="/static/Images/aichatbot.png" alt="AI Chatbot" />
             </div>
@@ -389,280 +385,318 @@
             <div class="card-content">
               <h3>AI Chatbot</h3>
               <p>Chatbot using Gemini + DeepSeek APIs.</p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
             </div>
-          </a>
+          </div>
 
-          <!-- Project 3 -->
-          <a href="{{ url_for('show_aiagent_project') }}" class="project-card">
+          <div class="project-card" data-category="web" onclick="openModal(2)">
             <div class="card-image">
-              <img src="/static/Images/AI intelligent.webp" alt="AI Agent" />
+              <img
+                src="/static/Images/projects/storyland.png"
+                alt="storyland"
+              />
             </div>
-            <h3>AI Agent YouTube</h3>
+            <h3>StoryLand</h3>
             <div class="card-content">
-              <h3>AI Agent</h3>
-              <p>Voice-controlled YouTube song player.</p>
+              <h3>StoryLand</h3>
+              <p>Stories for Kids & Block the Adult content.</p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
             </div>
-          </a>
+          </div>
+          <div class="project-card" data-category="data" onclick="openModal(3)">
+            <div class="card-image">
+              <img
+                src="static/Images/projects/dashboard odi.png"
+                alt="Cricket ODI Dashboard"
+              />
+            </div>
+            <h3>Cricket ODI Dashboard</h3>
+            <div class="card-content">
+              <h3>Cricket ODI Dashboard</h3>
+              <p>Live stats, match insights & rankings powered by Power BI.</p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
+          <div class="project-card" data-category="data" onclick="openModal(4)">
+            <div class="card-image">
+              <img
+                src="static/Images/projects/indiapopulation.png"
+                alt="India Population Dashboard"
+              />
+            </div>
+            <h3>India Population Dashboard</h3>
+            <div class="card-content">
+              <h3>India Population Dashboard</h3>
+              <p>
+                Explore state-wise and year-wise population data of India with
+                dynamic visuals.
+              </p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
+          <div class="project-card" data-category="data" onclick="openModal(5)">
+            <div class="card-image">
+              <img
+                src="/static/Images/projects/mobileusage.png"
+                alt="Mobile App Usage Dashboard"
+              />
+            </div>
+            <h3>Mobile Usage Dashboard</h3>
+            <div class="card-content">
+              <h3>Mobile App Usage Stats</h3>
+              <p>
+                Tracks user screen time, feature usage, and daily activity
+                trends.
+              </p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="data" onclick="openModal(6)">
+            <div class="card-image">
+              <img
+                src="/static/Images/projects/webtraffic.png"
+                alt="Web Traffic Dashboard"
+              />
+            </div>
+            <h3>Web Traffic Dashboard</h3>
+            <div class="card-content">
+              <h3>Device-wise Traffic Analysis</h3>
+              <p>
+                Analyzes website traffic by device types — mobile, tablet, and
+                desktop — with insights on peak usage times and user behavior.
+              </p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="data" onclick="openModal(7)">
+            <div class="card-image">
+              <img
+                src="/static/Images/projects/learningprogress.png"
+                alt="Learning Progress Dashboard"
+              />
+            </div>
+            <h3>Learning Progress</h3>
+            <div class="card-content">
+              <h3>Learning Progress Tracker</h3>
+              <p>
+                Visualize modules completed, scores, and topic mastery for
+                self-learning or courses.
+              </p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="data" onclick="openModal(8)">
+            <div class="card-image">
+              <img
+                src="/static/Images/projects/covid19.png"
+                alt="COVID-19 Tracker"
+              />
+            </div>
+            <h3>COVID-19 Tracker</h3>
+            <div class="card-content">
+              <h3>Global COVID-19 Dashboard</h3>
+              <p>
+                Track confirmed cases, vaccination progress, and trends across
+                countries over time.
+              </p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="data" onclick="openModal(9)">
+            <div class="card-image">
+              <img
+                src="/static/Images/projects/restaurantdashboard.png"
+                alt="Restaurant Dashboard"
+              />
+            </div>
+            <h3>Restaurant Orders</h3>
+            <div class="card-content">
+              <h3>Restaurant Order Stats</h3>
+              <p>
+                Analyze menu popularity, order volumes by time, and delivery
+                performance.
+              </p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
+
+          <div
+            class="project-card"
+            data-category="data"
+            onclick="openModal(10)"
+          >
+            <div class="card-image">
+              <img
+                src="/static/Images/projects/expensesanalysis.png"
+                alt="Expense Tracker Dashboard"
+              />
+            </div>
+            <h3>Expense Tracker</h3>
+            <div class="card-content">
+              <h3>Personal Expense Dashboard</h3>
+              <p>
+                Track monthly expenses, categorize spendings, and visualize
+                saving goals with slicers.
+              </p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Start Skills Section -->
+    <!-- Skills Section -->
     <section id="skills-section" class="skills">
       <div class="container">
-        <div class="section-title">
-          <h2>Tech Stack_____</h2>
-        </div>
-
-        <div class="row">
-          <!-- Languages and Databases -->
-          <div
-            class="col-md-12 mt-4 icon-box"
-            data-aos="fade-up"
-            data-aos-delay="100"
-            style="background: #aedc978c"
-          >
-            <h4 style="text-align: left; color: #000000c5">
-              Languages and Databases
-            </h4>
-            <div
-              style="
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                align-items: center;
-              "
-            >
+        <h2 class="section-heading">⚡ Tech Stack</h2>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <h4 style="color: black">Languages & Databases</h4>
+            <div class="icons">
               <img
                 src="https://www.vectorlogo.zone/logos/python/python-horizontal.svg"
-                height="60"
                 alt="Python"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/java/java-horizontal.svg"
-                height="60"
                 alt="Java"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-ar21.svg"
-                height="60"
                 alt="HTML5"
               />
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg"
-                height="60"
                 alt="CSS3"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/javascript/javascript-horizontal.svg"
-                height="60"
                 alt="JavaScript"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/mysql/mysql-horizontal.svg"
-                height="60"
                 alt="MySQL"
               />
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg"
-                height="60"
                 alt="R"
               />
             </div>
           </div>
 
-          <!-- Frameworks & Libraries -->
-          <div
-            class="col-md-12 mt-4 icon-box"
-            data-aos="fade-up"
-            data-aos-delay="150"
-            style="background: #aedc978c"
-          >
-            <h4 style="text-align: left; color: #09203a">
-              Frameworks & Libraries
-            </h4>
-            <div
-              style="
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                align-items: center;
-              "
-            >
+          <div class="skill-card">
+            <h4 style="color: black">Frameworks & Libraries</h4>
+            <div class="icons">
               <img
                 src="https://www.vectorlogo.zone/logos/djangoproject/djangoproject-ar21.svg"
-                height="60"
                 alt="Django"
               />
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Flask_logo.svg"
                 alt="Flask"
-                height="60"
-                width="160"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/reactjs/reactjs-ar21.svg"
-                height="60"
                 alt="React"
               />
-              <!--<img
-                src="https://www.vectorlogo.zone/logos/opencv/opencv-ar21.svg"
-                height="60"
-                alt="OpenCV"
-              />-->
               <img
                 src="https://www.vectorlogo.zone/logos/numpy/numpy-ar21.svg"
-                height="60"
                 alt="NumPy"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/usepanda/usepanda-ar21.svg"
-                height="60"
                 alt="Pandas"
               />
               <img
                 src="https://matplotlib.org/_static/logo2_compressed.svg"
-                height="60"
                 alt="Matplotlib"
               />
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg"
-                height="60"
                 alt="Scikit-learn"
               />
               <img
                 src="https://seaborn.pydata.org/_static/logo-wide-lightbg.svg"
-                height="60"
                 alt="Seaborn"
               />
             </div>
           </div>
 
-          <!-- Deployment & Hosting -->
-          <div
-            class="col-md-12 mt-4 icon-box"
-            data-aos="fade-up"
-            data-aos-delay="200"
-            style="background: #aedc978c"
-          >
-            <h4 style="text-align: left; color: #09203a">
-              Deployment & Hosting
-            </h4>
-            <div
-              style="
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                align-items: center;
-              "
-            >
+          <div class="skill-card">
+            <h4 style="color: black">Deployment & Hosting</h4>
+            <div class="icons">
               <img
                 src="https://www.vectorlogo.zone/logos/github/github-ar21.svg"
-                height="60"
                 alt="GitHub"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/git-scm/git-scm-ar21.svg"
-                height="60"
                 alt="Git"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/google_cloud/google_cloud-ar21.svg"
-                height="60"
                 alt="Google Cloud"
               />
               <img
                 src="https://www.vectorlogo.zone/logos/heroku/heroku-ar21.svg"
-                height="60"
                 alt="Heroku"
+              />
+              <!-- Render Logo -->
+              <img
+                src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/render.svg"
+                alt="Render"
+                style="height: 50px; filter: invert(1)"
+              />
+
+              <!-- Neon Logo (You may have to download this if not available via CDN) -->
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Neon_Technology_Logo.svg/2560px-Neon_Technology_Logo.svg.png"
+                alt="Neon"
+                style="height: 50px"
               />
             </div>
           </div>
 
-          <!-- Tools & IDEs -->
-          <div
-            class="col-md-12 mt-4 icon-box"
-            data-aos="fade-up"
-            data-aos-delay="250"
-            style="background: #aedc978c"
-          >
-            <h4 style="text-align: left; color: #09203a">Tools & IDEs</h4>
-            <div
-              style="
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                align-items: center;
-              "
-            >
+          <div class="skill-card">
+            <h4 style="color: black">Tools & IDEs</h4>
+            <div class="icons">
               <img
                 src="https://www.vectorlogo.zone/logos/jupyter/jupyter-ar21.svg"
-                height="60"
                 alt="Jupyter Notebook"
               />
               <img
                 src="https://img.icons8.com/fluent/96/visual-studio-code-2019.png"
-                height="60"
                 alt="VS Code"
               />
               <img
                 src="https://img.icons8.com/color/96/microsoft-excel-2019--v1.png"
-                height="60"
                 alt="Excel"
               />
               <img
                 src="https://img.icons8.com/color/96/tableau-software.png"
-                height="60"
                 alt="Tableau"
               />
               <img
                 src="https://img.icons8.com/color/96/000000/power-bi.png"
-                height="60"
                 alt="Power BI"
-              />
-            </div>
-          </div>
-          <!-- Productivity Tools -->
-          <div
-            class="col-md-12 mt-4 icon-box"
-            data-aos="fade-up"
-            data-aos-delay="300"
-            style="background: #aedc978c"
-          >
-            <h4 style="text-align: left; color: #09203a">Productivity Tools</h4>
-            <div
-              style="
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                align-items: center;
-              "
-            >
-              <img
-                src="https://img.icons8.com/color/96/microsoft-word-2019--v1.png"
-                height="60"
-                alt="MS Word"
-              />
-              <img
-                src="https://img.icons8.com/color/96/microsoft-powerpoint-2019--v1.png"
-                height="60"
-                alt="PowerPoint"
               />
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- End Skills Section -->
 
-    <!-- Start Contact Section -->
+    <!-- Contact Section -->
     <section id="contact-section" class="contact">
       <div class="container">
         <div class="section-title">
           <h2>Contact</h2>
         </div>
 
-        <!-- Contact Info Boxes -->
         <div class="row contact-info-boxes">
           <div class="info-box">
             <i class="bx bx-map"></i>
@@ -678,23 +712,20 @@
                 href="https://www.linkedin.com/in/babu-gudoori-23a528230"
                 target="_blank"
                 class="linkedin"
-              >
-                <i class="bx bxl-linkedin"></i>
-              </a>
+                ><i class="bx bxl-linkedin"></i
+              ></a>
               <a
                 href="mailto:babugudurigbk@gmail.com"
                 target="_blank"
                 class="google"
-              >
-                <i class="bx bxl-google"></i>
-              </a>
+                ><i class="bx bxl-google"></i
+              ></a>
               <a
                 href="https://www.instagram.com/babu_geesa/"
                 target="_blank"
                 class="instagram"
-              >
-                <i class="bx bxl-instagram"></i>
-              </a>
+                ><i class="bx bxl-instagram"></i
+              ></a>
             </div>
           </div>
 
@@ -722,13 +753,11 @@
                 href="https://wa.me/917893044756"
                 target="_blank"
                 class="whatsapp-link"
-              >
-                <i class="bx bxl-whatsapp"></i>
-              </a>
+                ><i class="bx bxl-whatsapp"></i
+              ></a>
             </p>
           </div>
         </div>
-        <!-- ✅ Add action and method -->
 
         <div class="contact-form">
           <form class="hire-form" action="/submit" method="post">
@@ -736,7 +765,6 @@
             <p class="subheading">Let's Connect!</p>
 
             <div class="form-row">
-              <!-- ✅ Add name attributes -->
               <input type="text" name="name" placeholder="Name" required />
               <input type="email" name="email" placeholder="Email" required />
             </div>
@@ -755,16 +783,15 @@
       </div>
     </section>
 
-    <!-- End Contact Section -->
-
-    <!-- Success Popup -->
-    <div id="success-popup" class="popup-overlay">
+    {% if success == 'true' %}
+    <div class="popup-overlay" id="success-popup" style="display: flex">
       <div class="popup-content">
         <span class="popup-icon">✅</span>
         <h3>Thank You!</h3>
-        <p>Your message has been sent successfully.</p>
+        <p class="success-msg">Your request has been submitted!</p>
       </div>
     </div>
+    {% endif %}
 
     <!-- Admin Login Modal -->
     <div id="admin-login-section" class="modal-overlay" style="display: none">
@@ -792,39 +819,62 @@
       </div>
     </div>
 
-    <!-- Dashboard -->
+    <!-- Admin Dashboard Modal -->
     <div id="admin-dashboard" class="modal-overlay" style="display: none">
-      <div
-        class="modal-form dark-theme"
-        style="width: 80%; max-height: 80vh; overflow-y: auto"
-      >
+      <div class="modal-form dark-theme">
         <span class="close-btn" onclick="toggleDashboard(false)">&times;</span>
-        <h3 class="dashboar-h3">Hire Requests</h3>
-        <table id="hire-requests-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Message</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <h3 class="dashboard-h3">Hire Requests</h3>
+
+        <!-- CSV Download Button -->
+        <div class="dashboard-actions">
+          <button class="csv-download-btn" onclick="downloadCSV()">
+            ⬇ Download CSV
+          </button>
+        </div>
+
+        <!-- Scrollable Table Wrapper -->
+        <div class="dashboard-table-wrapper">
+          <table id="hire-requests-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rows dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <!-- chatbot- assistant start -->
+    <!-- Chatbot Assistant Start -->
     <div class="chatbot-container">
       <!-- Floating icon button -->
       <div class="chatbot-toggle" onclick="toggleChatbot()">
-        <span class="emoji-icon">🤖</span>
+        <div class="tooltip-wrapper">
+          <svg
+            class="emoji-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2c.552 0 1 .448 1 1v1h4a2 2 0 0 1 2 2v4.277A6.002 6.002 0 0 1 18 21H6a6.002 6.002 0 0 1-1-11.723V6a2 2 0 0 1 2-2h4V3c0-.552.448-1 1-1zm0 6c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6zm-2.5 5a1.5 1.5 0 1 0 .001 3.001A1.5 1.5 0 0 0 9.5 13zm5 0a1.5 1.5 0 1 0 .001 3.001A1.5 1.5 0 0 0 14.5 13z"
+            />
+          </svg>
+          <span class="tooltip-text">Riya babu's Assistant</span>
+        </div>
+
         <span id="introMessage" class="intro"></span>
       </div>
 
       <!-- Hidden chatbot box -->
-      <div class="chatbot-box" id="chatbotBox">
+      <div class="chatbot-box" id="chatbotBox" style="display: none">
         <div id="chat-box"></div>
         <div class="input-area">
           <input
@@ -838,7 +888,19 @@
         </div>
       </div>
     </div>
+    <!-- Chatbot Assistant End -->
+    <!-- Modal -->
+    <div id="projectModal" class="modal" style="display: none">
+      <div class="modal-backdrop"></div>
 
-    <!-- chatbot- assistant end-->
+      <!-- Arrow buttons outside modal content -->
+      <button id="prevBtn" class="nav-btn left">&larr;</button>
+      <button id="nextBtn" class="nav-btn right">&rarr;</button>
+
+      <div class="modal-content">
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
   </body>
 </html>

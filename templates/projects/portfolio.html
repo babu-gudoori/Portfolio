@@ -1,276 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project: Portfolio Website</title>
-    <link rel="stylesheet" href="../styles.css" />
-    <style>
-      body {
-        font-family: "Segoe UI", sans-serif;
-        margin: 100px;
-        padding: 0;
-        background: #0d1117;
-        color: #e6edf3;
-        line-height: 1.6;
-      }
+<style>
+  .container {
+    padding: 1.5rem;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+  }
 
-      .container {
-        max-width: 1000px;
-        width: 90%;
-        margin: 4rem auto;
-        padding: 2rem;
-        background: #161b22;
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-        animation: glowInCenter 1.2s ease-out forwards;
-        opacity: 0;
-        transform: scale(0.5);
-      }
+  .container h2 {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    color: #61dafb;
+  }
 
-      @keyframes glowInCenter {
-        0% {
-          opacity: 0;
-          transform: scale(0.5);
-          box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-        }
-        60% {
-          opacity: 0.8;
-          transform: scale(1.1);
-          box-shadow: 0 0 25px rgba(88, 166, 255, 0.4);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1);
-          box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
-        }
-      }
+  ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
 
-      h1 {
-        text-align: center;
-        color: #58a6ff;
-        margin-bottom: 1rem;
-      }
+  ul li {
+    margin-bottom: 0.5rem;
+  }
 
-      .sticky-back-btn {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        padding: 0.5rem 1rem;
-        background: #21262d;
-        color: #e6edf3;
-        border-radius: 8px;
-        text-decoration: none;
-        z-index: 1000;
-        transition: background 0.3s ease, transform 0.3s ease;
-      }
+  .tags {
+    margin-top: 1rem;
+  }
 
-      .sticky-back-btn:hover {
-        background: #30363d;
-        transform: scale(1.05);
-      }
+  .tags span {
+    background: #222;
+    color: #61dafb;
+    padding: 0.4rem 0.8rem;
+    margin: 0.3rem;
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
 
-      .section {
-        margin-bottom: 2rem;
-      }
+  .links {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
 
-      .section h2 {
-        color: #79c0ff;
-        margin-bottom: 0.5rem;
-      }
+  .links a {
+    color: #61dafb;
+    text-decoration: none;
+    margin-right: 1rem;
+  }
 
-      .tags span {
-        display: inline-block;
-        background: #238636;
-        color: white;
-        padding: 0.3rem 0.6rem;
-        margin: 0.2rem;
-        border-radius: 6px;
-        font-size: 0.9rem;
-      }
+  .links a:hover {
+    text-decoration: underline;
+  }
+</style>
 
-      a {
-        color: #58a6ff;
-        text-decoration: underline;
-      }
+<div class="container">
+  <h2>Smart Personal Portfolio Website</h2>
 
-      .project-images img {
-        max-width: 100%;
-        border-radius: 8px;
-        margin: 0.5rem 0;
-        border: 2px solid #30363d;
-      }
+  <p>
+    This project is a dynamic and intelligent portfolio platform designed to highlight my capabilities as a developer. It combines AI-powered interaction with practical features like admin login, email integration, and data management via CSV.
+  </p>
 
-      .navigation-buttons {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-top: 2rem;
-      }
+  <ul>
+    <li>⚡ Fully responsive UI with smooth animations and modern layout.</li>
+    <li>🤖 Integrated chatbot <strong>Riya</strong>, trained using CSV to respond intelligently to user queries.</li>
+    <li>📝 “Hire Me” form that sends user submissions directly to the admin’s email and stores them in a CSV file for backup.</li>
+    <li>🔐 Hidden <strong>Admin Dashboard</strong> – accessed by triple-clicking the logo – lets the owner view and manage hire requests.</li>
+    <li>💬 Secure backend developed using <strong>Flask</strong> and Python, ensuring data handling and form processing.</li>
+  </ul>
 
-      .btn {
-        display: inline-block;
-        padding: 0.6rem 1.2rem;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
-        transition: 0.3s;
-        white-space: nowrap;
-        position: relative;
-      }
+  <div class="tags">
+    <span>HTML</span>
+    <span>CSS</span>
+    <span>JavaScript</span>
+    <span>Python</span>
+    <span>Flask</span>
+    <span>CSV</span>
+  </div>
 
-      .btn:hover {
-        transform: scale(1.05);
-      }
-
-      .prev-btn {
-        background: #8b949e;
-        color: white;
-      }
-
-      .prev-btn:hover {
-        background: #a1aeb8;
-      }
-
-      .nxt-btn {
-        background: #238636;
-        color: white;
-      }
-
-      .nxt-btn:hover {
-        background: #2ea043;
-      }
-
-      .btn::after {
-        content: attr(title);
-        position: absolute;
-        top: -35px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #21262d;
-        color: #fff;
-        padding: 0.3rem 0.6rem;
-        font-size: 0.75rem;
-        border-radius: 6px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        white-space: nowrap;
-      }
-
-      .btn:hover::after {
-        opacity: 1;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Sticky Back to Projects Button -->
-    <a
-      href="{{ url_for('index') }}"
-      class="sticky-back-btn"
-      title="Go Back to All Projects"
-      >⬅️ Back</a
-    >
-
-    <div class="container">
-      <h1>Portfolio Website</h1>
-
-      <div class="section">
-        <h2>Overview</h2>
-        <p>
-          This personal portfolio website is designed to present my technical skills,
-          projects, and professional background in an interactive and engaging format.
-          It features a sleek UI with responsive animations, and it integrates backend logic
-          to store and manage data efficiently.
-        </p>
-      </div>
-
-      <div class="section">
-        <h2>Features</h2>
-        <ul>
-          <li>Modern responsive design with animated sections and transitions</li>
-          <li>Interactive chatbot assistant named <strong>Riya</strong> (CSV-trained mini AI)</li>
-          <li>Admin login with password-protected dashboard</li>
-          <li>“Hire Me” form with backend MySQL database integration</li>
-          <li>Triple-click on logo to reveal hidden admin login</li>
-          <li>Shares the Request details through the mail</li>
-          <!--<li>Downloadable resume and exportable hire request data (Excel/PDF)</li>-->
-        </ul>
-      </div>
-
-      <div class="section">
-        <h2>Chatbot & Admin Panel</h2>
-        <p>
-          The chatbot named <strong>Riya</strong> is a lightweight assistant that can answer queries based on a
-          preloaded CSV dataset. It supports text-based interaction.
-        </p>
-        <p>
-          The <strong>Hire Me</strong> form allows visitors to send project or job requests, which are
-          stored securely in a MySQL database. To access this data, the admin must:
-        </p>
-        <ul>
-          <li>Click the logo three times to trigger the hidden admin login</li>
-          <li>Enter valid admin credentials (username & password)</li>
-          <li>Access the dashboard to view all form submissions</li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <h2>Technologies Used</h2>
-        <div class="tags">
-          <span>HTML5</span>
-          <span>CSS3</span>
-          <span>JavaScript</span>
-          <span>Python</span>
-          <span>Flask</span>
-          <span>MySQL</span>
-          <span>CSV Parser</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>Screenshots</h2>
-        <div class="project-images">
-          <img src="/static/Images/portfolio/home.png" alt="Home Page" />
-          <img src="/static/Images/portfolio/about.png" alt="Skills Section" />
-          <img src="/static/Images/portfolio/projects.png" alt="Admin Dashboard" />
-          <img src="/static/Images/portfolio/chatbot.png" alt="Admin Dashboard" />
-          <img src="/static/Images/portfolio/contact.png" alt="Admin Dashboard" />
-          <img src="/static/Images/portfolio/hiremeform.png" alt="Admin Dashboard" />
-          <img src="/static/Images/portfolio/adminlogin.png" alt="Admin Dashboard" />
-          <img src="/static/Images/portfolio/admindashboard.png" alt="Admin Dashboard" />
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>Links</h2>
-        <p>
-          🌐 Live Website:
-          <a
-            >On Render</a
-          ><br />
-          💻 Source Code:
-          <a href="https://github.com/babu-gudoori/babu_portfolio" target="_blank"
-            >GitHub Repository</a
-          >
-        </p>
-      </div>
-
-      <div class="navigation-buttons">
-        <a
-          href="{{ url_for('show_aiagent_project') }}"
-          class="btn prev-btn"
-          title="Previous Project"
-          ><< Previous</a
-        >
-        <a
-          href="{{ url_for('show_aichatbot_project') }}"
-          class="btn nxt-btn"
-          title="Next Project"
-          >Next >></a
-        >
-      </div>
-    </div>
-  </body>
-</html>
+  <div class="links">
+    🌐 <a href="https://your-portfolio-hosting-link.com" target="_blank">Live Website</a>
+    📂 <a href="https://github.com/babu-gudoori/babu_portfolio" target="_blank">GitHub Repository</a>
+  </div>
+</div>

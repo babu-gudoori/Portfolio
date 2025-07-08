@@ -1,219 +1,170 @@
+/*==================== SECTION NAVIGATION ====================*/
 function showSection(sectionId) {
-  // Hide all sections (including admin)
-  document.querySelectorAll('section').forEach(section => {
-    section.style.display = 'none';
+  document.querySelectorAll("section").forEach((section) => {
+    section.style.display = "none";
   });
 
-  // Hide admin dashboard if visible
-  toggleDashboard(false);  // ✅ Hide admin dashboard
+  toggleDashboard(false); // Hide dashboard
+  toggleAdmin(false); // Hide admin login
 
-  // Show the selected section
-  const target = document.getElementById(sectionId + '-section');
-  if (target) {
-    target.style.display = 'flex'; // or 'block' based on layout
-  }
+  const target = document.getElementById(`${sectionId}-section`);
+  if (target) target.style.display = "flex";
 
-  // Highlight the active navbar link
-  const navbarLinks = document.querySelectorAll('.navbar a');
-  navbarLinks.forEach(link => link.classList.remove('active'));
+  document.querySelectorAll(".navbar a").forEach((link) => {
+    link.classList.remove("active");
+  });
 
-  const activeLink = document.querySelector(`.navbar a[onclick="showSection('${sectionId}')"]`);
-  if (activeLink) {
-    activeLink.classList.add('active');
-  }
+  const activeLink = document.querySelector(
+    `.navbar a[onclick="showSection('${sectionId}')"]`
+  );
+  if (activeLink) activeLink.classList.add("active");
 
-  // ✅ Save selected section to localStorage
   localStorage.setItem("activeSection", sectionId);
 }
 
-
-
-
-
-// admin use //
+/*==================== ADMIN LOGIN ====================*/
 let logoClickCount = 0;
 let clickTimer;
 
 document.addEventListener("DOMContentLoaded", () => {
   const logo = document.getElementById("logo");
 
-  logo.addEventListener("click", (e) => {
-    e.preventDefault();
-    logoClickCount++;
+  if (logo) {
+    logo.addEventListener("click", (e) => {
+      e.preventDefault();
+      logoClickCount++;
 
-    if (logoClickCount === 3) {
-      document.getElementById("admin-login-section").style.display = "flex";
-    }
+      if (logoClickCount === 3) toggleAdmin(true);
 
-    clearTimeout(clickTimer);
-    clickTimer = setTimeout(() => logoClickCount = 0, 2000);
-  });
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => (logoClickCount = 0), 2000);
+    });
+  }
 
-  // Handle login form
-  document.getElementById("admin-login-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+  const loginForm = document.getElementById("admin-login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const username = document.getElementById("admin-username").value;
-    const password = document.getElementById("admin-password").value;
+      const username = document.getElementById("admin-username").value;
+      const password = document.getElementById("admin-password").value;
 
-    try {
-      const response = await fetch('/admin-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
+      try {
+        const response = await fetch("/admin-login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
 
-      // 🔽 Response status check
-      if (!response.ok) {
-        alert(`❌ Server responded with status: ${response.status}`);
-        return;
+        if (!response.ok) {
+          alert(`❌ Server responded with status: ${response.status}`);
+          return;
+        }
+
+        const data = await response.json();
+        if (data.success) {
+          toggleAdmin(false);
+          showDashboard(data.requests);
+        } else {
+          document.getElementById("login-error").style.display = "block";
+        }
+      } catch (error) {
+        console.error("❌ Network error:", error);
+        alert("❌ Unable to connect to server. Please try again.");
       }
-
-      const data = await response.json();
-
-      if (data.success) {
-        toggleAdmin(false);
-        showDashboard(data.requests);
-      } else {
-        document.getElementById("login-error").style.display = "block";
-      }
-
-    } catch (error) {
-      console.error("❌ Network error:", error);
-      alert("❌ Unable to connect to server. Please try again.");
-    }
-
-
-
-  });
-
-
-
+    });
+  }
 });
 
-
-
+/*==================== ADMIN DASHBOARD ====================*/
 function toggleAdmin(show) {
-  document.getElementById("admin-login-section").style.display = show ? "flex" : "none";
+  document.getElementById("admin-login-section").style.display = show
+    ? "flex"
+    : "none";
 }
 
 function toggleDashboard(show) {
-  document.getElementById("admin-dashboard").style.display = show ? "flex" : "none";
+  const dashboard = document.getElementById("admin-dashboard");
+  dashboard.style.display = show ? "block" : "none";
+  document.body.classList.toggle("modal-open", show);
 }
 
 function showDashboard(requests) {
   toggleDashboard(true);
-  localStorage.setItem("activeSection", "admin-dashboard"); // ✅ Save current section
+  localStorage.setItem("activeSection", "admin-dashboard");
 
   const tableBody = document.querySelector("#hire-requests-table tbody");
   tableBody.innerHTML = "";
 
-  requests.forEach(req => {
-    const row = `<tr>
+  requests.forEach((req) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
       <td>${req.id}</td>
       <td>${req.name}</td>
-      <td>${req.email}</td>
+      <td><a href="mailto:${req.email}" target="_blank" class="email-link">${req.email}</a></td>
+      <td>${req.subject}</td>
       <td>${req.message}</td>
-      <td>${req.submitted_at}</td> <!-- ✅ New Date Column -->
-    </tr>`;
-    tableBody.innerHTML += row;
+      <td>${req.submitted_at}</td>
+    `;
+    tableBody.appendChild(row);
   });
 }
 
+/*==================== CSV DOWNLOAD ====================*/
+function downloadCSV() {
+  const rows = document.querySelectorAll("#hire-requests-table tr");
+  const csv = Array.from(rows)
+    .map((row) => {
+      const cols = row.querySelectorAll("td, th");
+      return Array.from(cols)
+        .map((col) => `"${col.innerText.replace(/"/g, '""')}"`)
+        .join(",");
+    })
+    .join("\n");
 
-
-document.addEventListener("DOMContentLoaded", async () => {
-  // Existing popup logic
-  const successFlag = document.body.dataset.success;
-
-  if (successFlag === "true") {
-    const popup = document.getElementById("success-popup");
-    if (popup) {
-      popup.style.display = "flex";
-
-      setTimeout(() => {
-        popup.style.display = "none";
-        window.history.replaceState({}, document.title, "/");
-      }, 3000);
-    }
-  }
-
-  // ✅ Restore section on page reload
-  const savedSection = localStorage.getItem("activeSection");
-  if (savedSection === "admin-dashboard") {
-    try {
-      const response = await fetch("/get-requests");
-      if (response.ok) {
-        const data = await response.json();
-        showDashboard(data.requests);
-      } else {
-        console.warn("Failed to fetch dashboard data.");
-      }
-    } catch (err) {
-      console.error("Error fetching dashboard data:", err);
-    }
-  } else if (savedSection) {
-    showSection(savedSection);
-  }
-
-  const hireModal = document.getElementById("hire-form-modal");
-  if (hireModal) {
-    hireModal.addEventListener("click", function (e) {
-      if (e.target === this) {
-        toggleForm(false);
-      }
-    });
-  }
-
-});
-function toggleForm(show = true) {
-  const modal = document.getElementById("hire-form-modal");
-  if (modal) {
-    modal.style.display = show ? "flex" : "none";
-  }
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "hire_requests.csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
+/*==================== MODAL FORM ====================*/
+function toggleForm(show = true) {
+  const modal = document.getElementById("hire-form-modal");
+  if (modal) modal.style.display = show ? "flex" : "none";
+}
 
-// chatbot start//
-window.onload = function () {
+/*==================== CHATBOT ====================*/
+window.onload = () => {
   const chatBox = document.getElementById("chat-box");
   const input = document.getElementById("user-input");
-  const introMessage = document.getElementById("introMessage");
-  const chatbotContainer = document.querySelector('.chatbot-container');
+  const chatbotContainer = document.querySelector(".chatbot-container");
 
-  // Typing effect intro message on load
-  const introText = "I'm Riya, Babu's Assistant";
-  let i = 0;
+  let hasWelcomed = false;
 
-  function typeIntro() {
-    if (i < introText.length) {
-      introMessage.textContent += introText.charAt(i);
-      i++;
-      setTimeout(typeIntro, 100);
-    } else {
-      setTimeout(eraseIntro, 2500); // wait 2.5s then erase
-    }
-  }
-
-  function eraseIntro() {
-    if (i > 0) {
-      i--;
-      introMessage.textContent = introText.substring(0, i);
-      setTimeout(eraseIntro, 50);
-    } else {
-      introMessage.classList.add("fade-out");
-    }
-  }
-
-  // Typing the intro message
-  typeIntro();
-
-  window.toggleChatbot = function () {
+  window.toggleChatbot = () => {
     const box = document.getElementById("chatbotBox");
-    box.style.display = box.style.display === "flex" ? "none" : "flex";
+    const isOpening = box.style.display !== "flex";
+    box.style.display = isOpening ? "flex" : "none";
+
+    // Autoplay welcome message once when opening
+    if (isOpening && !hasWelcomed) {
+      setTimeout(() => {
+        appendMessage(
+          "bot",
+          "👋 Hello! I'm <strong>Riya</strong>, Babu's smart assistant. Ask me anything about his <em>skills, projects, dashboards</em>, or <em>contact info</em>!"
+        );
+      }, 300); // small delay for better UX
+      hasWelcomed = true;
+    }
   };
 
-  window.sendMessage = function () {
+  // Send Message to Backend
+  window.sendMessage = async () => {
     const userText = input.value.trim();
     if (!userText) return;
 
@@ -222,25 +173,57 @@ window.onload = function () {
 
     showTypingIndicator();
 
-    setTimeout(() => {
-      processInput(userText.toLowerCase());
+    try {
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userText }),
+      });
+
+      const data = await res.json();
       removeTypingIndicator();
-    }, 1000);
+      appendMessage("bot", data.response);
+    } catch (err) {
+      removeTypingIndicator();
+      appendMessage("bot", "❌ Sorry, something went wrong. Try again later.");
+    }
   };
 
+  // Append Message to Chat
   function appendMessage(sender, text) {
     const message = document.createElement("div");
     message.className = sender === "user" ? "user-msg" : "bot-msg";
-    message.textContent = text;
+
+    // Fade-in animation
+    message.style.opacity = 0;
+    message.style.transition = "opacity 0.4s ease-in";
+
+    if (sender === "bot") {
+      message.innerHTML = text; // render HTML for bot
+    } else {
+      message.textContent = text;
+    }
+
     chatBox.appendChild(message);
-    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Trigger fade-in
+    setTimeout(() => {
+      message.style.opacity = 1;
+    }, 50);
+
+    // Auto-scroll to bottom
+    chatBox.scrollTo({
+      top: chatBox.scrollHeight,
+      behavior: "smooth",
+    });
   }
 
+  // Typing indicator
   function showTypingIndicator() {
     const typing = document.createElement("div");
     typing.className = "bot-msg typing-indicator";
-    typing.textContent = "Riya is typing...";
     typing.id = "typing";
+    typing.textContent = "Riya is typing...";
     chatBox.appendChild(typing);
     chatBox.scrollTop = chatBox.scrollHeight;
   }
@@ -250,118 +233,179 @@ window.onload = function () {
     if (typing) typing.remove();
   }
 
-  // --- Fetch and process CSV file ---
-  let csvData = [];
-
-  function loadCSV() {
-    Papa.parse("static/chatbot-dataset.csv", {
-      download: true,
-      header: true,
-      complete: function (results) {
-        csvData = results.data;
-        console.log("CSV Loaded!", csvData); // ✅ Check browser console for output
-      },
-      error: function (err) {
-        console.error("CSV Load Error", err);
-      }
-    });
-
-  }
-
-  window.onload = function () {
-    loadCSV(); // Load CSV when page loads
-
-    // Continue with rest of your chatbot setup (already present in your script)
-  };
-
-  // --- Process user input using CSV + fallback responses ---
-  Papa.parse("static/chatbot-dataset.csv", {
-    download: true,
-    header: true,
-    complete: function (results) {
-      csvData = results.data;
-      console.log("CSV Loaded!", csvData); // ✅ Check browser console for output
-    },
-    error: function (err) {
-      console.error("CSV Load Error", err);
-    }
-  });
-
-  function processInput(text) {
-    let response = null;
-
-    // First, try to match from CSV
-    for (let row of csvData) {
-      if (row.question) {
-        const variants = row.question.toLowerCase().split("||").map(q => q.trim());
-        for (let variant of variants) {
-          if (text.includes(variant)) {
-            response = row.response;
-            break;
-          }
-        }
-      }
-      if (response) break;
-    }
-
-
-    // If no match, fallback to built-in rules
-    if (!response) {
-      if (text.includes("hello") || text.includes("hi") || text.includes("hai")) {
-        response = "Hey there! I'm Riya, Babu's assistant!";
-      } else if (text.includes("skills")) {
-        response = "I'm skilled in Python, Flask, JavaScript, HTML, CSS, and MySQL.";
-      } else if (text.includes("education")) {
-        response = "B.Tech in Computer Science & Engineering, specialized in AI & ML.";
-      } else if (text.includes("projects")) {
-        response = "Projects include Portfolio, AI chatbot, sentiment analysis, and more!";
-      } else if (text.includes("name") || text.includes("creator")) {
-        response = "My creator is a passionate engineer with a focus on AI and web dev.";
-      } else {
-        response = "Ask me something like: ‘Tell me Babu’s projects’ or ‘What skills does Babu have?’";
-      }
-    }
-
-    appendMessage("bot", response);
-  }
-
-  // Close chatbot when clicking outside
-  document.addEventListener('click', function (event) {
+  // Close chatbot on outside click
+  document.addEventListener("click", (event) => {
     if (!chatbotContainer.contains(event.target)) {
-      const box = document.getElementById("chatbotBox");
-      box.style.display = "none"; // Close the chat box
+      document.getElementById("chatbotBox").style.display = "none";
     }
   });
+
+  // Dashboard restore (if admin)
+  const savedSection = localStorage.getItem("activeSection");
+  if (savedSection === "admin-dashboard") {
+    fetch("/get-requests")
+      .then((res) => res.json())
+      .then((data) => showDashboard(data.requests))
+      .catch(console.error);
+  }
+
+  // Hire form modal close
+  const hireModal = document.getElementById("hire-form-modal");
+  if (hireModal) {
+    hireModal.addEventListener("click", (e) => {
+      if (e.target === hireModal) toggleForm(false);
+    });
+  }
+
+  // Show success popup
+  const successFlag = document.body.dataset.success;
+  if (successFlag === "true") {
+    const popup = document.getElementById("success-popup");
+    if (popup) {
+      popup.style.display = "flex";
+      setTimeout(() => {
+        popup.style.display = "none";
+        window.history.replaceState({}, document.title, "/");
+      }, 3000);
+    }
+  }
 };
 
-
-//chatbot end//
-
-
+/*==================== NAVBAR INTERACTIONS ====================*/
 function toggleMenu() {
-  const navbar = document.querySelector('.navbar');
-  navbar.classList.toggle('active');
+  document.querySelector(".navbar").classList.toggle("active");
 }
 
-// Auto-close navbar on link click
-document.querySelectorAll('.navbar a').forEach(link => {
-  link.addEventListener('click', () => {
-    document.querySelector('.navbar').classList.remove('active');
+document.querySelectorAll(".navbar a").forEach((link) => {
+  link.addEventListener("click", () => {
+    document.querySelector(".navbar").classList.remove("active");
   });
 });
 
-// Close navbar when clicking outside
-document.addEventListener('click', function (event) {
-  const navbar = document.querySelector('.navbar');
-  const hamburger = document.querySelector('.hamburger');
-
-  const clickedInsideNavbar = navbar.contains(event.target);
-  const clickedHamburger = hamburger.contains(event.target);
-
-  if (!clickedInsideNavbar && !clickedHamburger) {
-    navbar.classList.remove('active');
+document.addEventListener("click", (event) => {
+  const navbar = document.querySelector(".navbar");
+  const hamburger = document.querySelector(".hamburger");
+  if (!navbar.contains(event.target) && !hamburger.contains(event.target)) {
+    navbar.classList.remove("active");
   }
 });
 
+/*==================== UTILS ====================*/
+function safeText(text) {
+  return text ?? "";
+}
 
-new VenoBox({ selector: '.venobox' });
+/*============= Showing Projects =================*/
+document.addEventListener("DOMContentLoaded", () => {
+  const projects = [
+    "/projects/portfolio",
+    "/projects/ai-chatbot",
+    "/projects/storyland",
+    "/projects/cricket",
+  ];
+
+  let currentIndex = 0;
+  const modal = document.getElementById("projectModal");
+
+  // Attach event listener to project cards
+  document.querySelectorAll(".project-card").forEach((card, idx) => {
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModal(idx);
+    });
+  });
+
+  // Open modal with project content
+  function openModal(index) {
+    currentIndex = index;
+    loadProject(projects[currentIndex], "right"); // default slide-in from right
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden"; // Prevent background scroll
+  }
+
+  // Close the modal
+  function closeModal() {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto"; // Restore scroll
+
+    // Optional: scroll back to projects section
+    document.getElementById("projects-section").scrollIntoView({
+      behavior: "smooth",
+    });
+
+    // Optional: Clear modal content
+    document.getElementById("modalContent").innerHTML = "";
+  }
+
+  // Load content of the selected project with animation direction
+  function loadProject(url, direction = "right") {
+    // Remove animation direction to reset animation
+    modal.removeAttribute("data-direction");
+
+    // Force reflow to restart animation
+    void modal.offsetHeight;
+
+    // Set animation direction attribute
+    modal.setAttribute("data-direction", direction);
+
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch project");
+        return res.text();
+      })
+      .then((html) => {
+        document.getElementById("modalContent").innerHTML = html;
+
+        // Show/hide navigation buttons
+        document.getElementById("prevBtn").style.display =
+          currentIndex > 0 ? "block" : "none";
+        document.getElementById("nextBtn").style.display =
+          currentIndex < projects.length - 1 ? "block" : "none";
+      })
+      .catch((err) => {
+        document.getElementById("modalContent").innerHTML =
+          "<p>Error loading project.</p>";
+        console.error(err);
+      });
+  }
+
+  // Close modal when clicking the close button
+  document
+    .getElementById("closeModalBtn")
+    .addEventListener("click", closeModal);
+
+  // Navigate to previous project
+  document.getElementById("prevBtn").addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      loadProject(projects[currentIndex], "left");
+    }
+  });
+
+  // Navigate to next project
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    if (currentIndex < projects.length - 1) {
+      currentIndex++;
+      loadProject(projects[currentIndex], "right");
+    }
+  });
+});
+// filter function
+function filterProjects(category) {
+  const cards = document.querySelectorAll(".project-card");
+  const buttons = document.querySelectorAll(".filter-btn");
+
+  buttons.forEach((btn) => btn.classList.remove("active"));
+  document
+    .querySelector(`.filter-btn[onclick*="${category}"]`)
+    .classList.add("active");
+
+  cards.forEach((card) => {
+    const cardCategory = card.getAttribute("data-category");
+    if (category === "all" || cardCategory === category) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}

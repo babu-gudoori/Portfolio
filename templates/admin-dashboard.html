@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="admin-dashboard" class="modal-overlay" style="display: flex;">
+    <div class="modal-form dark-theme" style="width: 80%; max-height: 80vh; overflow-y: auto;">
+      <span class="close-btn" id="logout-btn">&times;</span>
+      <h3 class="dashboard-h3">Hire Requests</h3>
+      <table id="hire-requests-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Logout button click: redirect back to index.html
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      window.location.href = '/index.html';
+    });
+
+    // Fetch and display hire requests on page load
+    async function fetchRequests() {
+      try {
+        const response = await fetch('/get-requests');
+        if (response.ok) {
+          const data = await response.json();
+          showDashboard(data.requests);
+        } else {
+          console.warn("Failed to fetch dashboard data.");
+        }
+      } catch (err) {
+        console.error("Error fetching dashboard data:", err);
+      }
+    }
+
+    function showDashboard(requests) {
+      const tableBody = document.querySelector("#hire-requests-table tbody");
+      tableBody.innerHTML = "";
+
+      requests.forEach(req => {
+        const row = `<tr>
+          <td>${req.id}</td>
+          <td>${req.name}</td>
+          <td>${req.email}</td>
+          <td>${req.message}</td>
+          <td>${req.submitted_at}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    fetchRequests();
+  </script>
+</body>
+</html>

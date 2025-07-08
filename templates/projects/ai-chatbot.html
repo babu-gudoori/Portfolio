@@ -1,299 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Coming Soon - AI Chatbot</title>
-    <link rel="stylesheet" href="../styles.css" />
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+<style>
+  .project-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+  }
 
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background: #0d1117;
-        color: #e6edf3;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        overflow: hidden;
-      }
+  .project-container h2 {
+    font-size: 2.5rem;
+    color: #61dafb;
+    margin-bottom: 1rem;
+  }
 
-      .container {
-        max-width: 700px;
-        background: #161b22;
-        padding: 3rem 2rem;
-        border-radius: 12px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-        animation: glowInCenter 1.2s ease-out forwards;
-        opacity: 0;
-        transform: scale(0.5);
-      }
+  .project-container p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
 
-      h1 {
-        font-size: 2.5rem;
-        color: #58a6ff;
-        margin-bottom: 1rem;
-      }
+  .safe-note {
+    font-size: 1rem;
+    color: #00cc88;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
 
-      p {
-        font-size: 1.2rem;
-        color: #8b949e;
-      }
+  .under-dev {
+    font-size: 1.5rem;
+    color: #ff4444;
+    font-weight: bold;
+    background: #222;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    display: inline-block;
+  }
+</style>
 
-      .nav-buttons {
-        margin-top: 2rem;
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
+<div class="project-container">
+  <h2>AI Chatbot</h2>
+  
+  <div class="safe-note">✨ Upcoming integration with <strong>Gemini API</strong> and <strong>DeepSeek API</strong> will enable advanced natural language reasoning and smarter, context-aware conversations.</div>
+  <div class="under-dev">🚧Coming Soon...🚧</div>
+</div>
 
-      .btn {
-        padding: 0.6rem 1.2rem;
-        background: #21262d;
-        color: #e6edf3;
-        text-decoration: none;
-        border-radius: 8px;
-        transition: background 0.3s ease, transform 0.3s ease;
-        position: relative;
-      }
+<!--
+<div class="container">
+  <h2>AI Chatbot: Riya</h2>
 
-      .btn:hover {
-        background: #30363d;
-        transform: scale(1.05);
-      }
+  <p>
+    This AI Chatbot project features a smart assistant named <strong>Riya</strong> that interacts with users in natural language. Built without external APIs, Riya processes text and voice input, delivering text and synthesized speech responses, enhancing user engagement on any website.
+  </p>
 
-      .btn::after {
-        content: attr(data-tooltip);
-        position: absolute;
-        bottom: 120%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #30363d;
-        color: #e6edf3;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 0.8rem;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-      }
+  <ul>
+    <li>🗣️ Supports both text and voice input using Web Speech API for seamless user interaction.</li>
+    <li>🎤 Uses built-in Text-to-Speech to generate dynamic voice responses in real-time.</li>
+    <li>🤖 Powered by custom trained CSV-based knowledge, allowing intelligent, context-aware answers.</li>
+    <li>💬 Animated typing effect and avatar integration to mimic realistic chatbot conversations.</li>
+    <li>🛠️ Lightweight and easily customizable, suitable for portfolio sites and customer support.</li>
+    <li>🧠 Upcoming: Enhanced NLP and reasoning via <strong>Gemini</strong> and <strong>DeepSeek APIs</strong>.</li>
+  </ul>
 
-      .btn:hover::after {
-        opacity: 1;
-      }
-
-      .top-back-btn {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        padding: 0.5rem 1rem;
-        background: #21262d;
-        color: #e6edf3;
-        border-radius: 8px;
-        text-decoration: none;
-        z-index: 1000;
-        transition: background 0.3s ease, transform 0.3s ease;
-      }
-
-      .top-back-btn:hover {
-        background: #30363d;
-        transform: scale(1.05);
-      }
-
-      .top-back-btn::after {
-        content: "Go to Projects";
-        position: absolute;
-        bottom: 120%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #30363d;
-        color: #e6edf3;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 0.8rem;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-      }
-
-      .top-back-btn:hover::after {
-        opacity: 1;
-      }
-
-      @keyframes glowInCenter {
-        0% {
-          opacity: 0;
-          transform: scale(0.5);
-          box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-        }
-        60% {
-          opacity: 0.8;
-          transform: scale(1.1);
-          box-shadow: 0 0 25px rgba(88, 166, 255, 0.4);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1);
-          box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Fixed Back to Projects button -->
-    <a
-      href="{{ url_for('index') }}"
-      class="top-back-btn"
-      data-tooltip="Go to Projects"
-      >⬅️ Back</a
-    >
-
-    <div class="container">
-      <h1>🚧 Coming Soon</h1>
-      <p>
-        The AI Chatbot project is currently under development.<br />
-        Please check back later for updates!
-      </p>
-
-      <div class="nav-buttons">
-        <a
-          href="{{ url_for('show_portfolio_project') }}"
-          class="btn"
-          data-tooltip="Previous Project"
-          ><< Previous</a
-        >
-        <a
-          href="{{ url_for('show_aiagent_project') }}"
-          class="btn"
-          data-tooltip="Next Project"
-          >Next >></a
-        >
-      </div>
-    </div>
-  </body>
-</html>
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Project: AI Chatbot</title>
-  <link rel="stylesheet" href="../styles.css" />
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0; padding: 0;
-      background: #0d1117;
-      color: #e6edf3;
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 900px;
-      margin: 3rem auto;
-      padding: 2rem;
-      background: #161b22;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
-    }
-    h1, h2 {
-      color: #58a6ff;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .section {
-      margin-bottom: 2rem;
-    }
-    .tags span {
-      display: inline-block;
-      background: #238636;
-      color: white;
-      padding: 0.3rem 0.6rem;
-      margin: 0.2rem;
-      border-radius: 6px;
-      font-size: 0.9rem;
-    }
-    a {
-      color: #58a6ff;
-      text-decoration: underline;
-    }
-    .project-image {
-      display: block;
-      max-width: 100%;
-      border-radius: 8px;
-      margin: 1rem auto;
-      border: 2px solid #30363d;
-    }
-    .back-btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background: #21262d;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: 0.3s;
-      text-align: center;
-    }
-    .back-btn:hover {
-      background: #30363d;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>AI Chatbot</h1>
-
-    <div class="section">
-      <img src="/static/Images/ai chatbot.jpeg" alt="AI Chatbot Screenshot" class="project-image" />
-    </div>
-
-    <div class="section">
-      <h2>Overview</h2>
-      <p>This AI Chatbot project leverages Gemini and DeepSeek APIs to create an interactive chatbot capable of responding intelligently through text and voice. It is designed to enhance user engagement with AI-powered conversation abilities.</p>
-    </div>
-
-    <div class="section">
-      <h2>Features</h2>
-      <ul>
-        <li>Voice and text enabled chatbot interaction</li>
-        <li>Integration with Gemini and DeepSeek APIs for advanced AI responses</li>
-        <li>Customizable and extensible for various use cases</li>
-        <li>Interactive UI with animated typing effects</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Technologies Used</h2>
-      <div class="tags">
-        <span>HTML5</span>
-        <span>CSS3</span>
-        <span>JavaScript</span>
-        <span>Python</span>
-        <span>Flask</span>
-        <span>Gemini API</span>
-        <span>DeepSeek API</span>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>Links</h2>
-      <p>
-        💻 Source Code: <a href="https://github.com/yourusername/ai-chatbot" target="_blank">GitHub Repository</a><br />
-        🌐 Live Demo: <a href="https://your-ai-chatbot-demo.com" target="_blank">your-ai-chatbot-demo.com</a>
-      </p>
-    </div>
-
-    <a href="{{ url_for('index') }}" class="back-btn">← Back to Projects</a>
+  <div class="tags">
+    <span>HTML</span>
+    <span>CSS</span>
+    <span>JavaScript</span>
+    <span>Web Speech API</span>
+    <span>AI</span>
+    <span>Gemini API</span>
+    <span>DeepSeek API</span>
   </div>
-</body>
-</html>-->
+
+  <div class="links">
+    🌐 <a href="https://your-ai-chatbot-live-link.com" target="_blank">Live Demo</a>
+    📂 <a href="https://github.com/babu-gudoori/ai-chatbot" target="_blank">GitHub Repository</a>
+  </div>
+</div>
+-->
