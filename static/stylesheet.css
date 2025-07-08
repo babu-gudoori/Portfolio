@@ -1564,7 +1564,7 @@ a.resume-link {
 
 a.resume-link:hover,
 a.resume-link:focus {
-  background-color: #232222;
+  background-color: #fc6a09;
   color: white; /* Make text visible on dark background */
   outline: none;
 }
@@ -2028,31 +2028,9 @@ a.resume-link i {
   }
 }
 
-/* Responsive tweaks */
-@media screen and (max-width: 768px) {
-  .icon-box {
-    width: 140px;
-    height: 160px;
-    padding: 20px;
-  }
-  .icon-box i {
-    font-size: 42px;
-  }
-}
 
-@media screen and (max-width: 480px) {
-  .interests-grid {
-    grid-template-columns: 1fr;
-  }
-  .icon-box {
-    width: 100%;
-    height: auto;
-    padding: 18px;
-  }
-  .icon-box h3 {
-    font-size: 14px;
-  }
-}
+
+
 .education {
   margin-top: 60px;
 }
@@ -2554,6 +2532,30 @@ a.resume-link i {
   overflow-wrap: break-word;
   max-width: 100%;
 }
+
+/* Chatbot Link Button Style */
+.chat-btn {
+  display: inline-block;
+  padding: 3px 6px;
+  margin: 4px 2px 0;
+  font-size: 10px;
+  font-weight: 400;
+  color: #00ffff;
+  background-color: #1a1a1a;
+  text-decoration: none;
+ 
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.2);
+}
+
+.chat-btn:hover {
+  background-color: #00ffff;
+  color: #000;
+  text-decoration: none;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+}
+
 
 /* Chrome, Edge, Safari */
 #chat-box::-webkit-scrollbar {

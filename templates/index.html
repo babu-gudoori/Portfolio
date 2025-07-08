@@ -56,7 +56,28 @@
     <!-- Local JS -->
     <script src="{{ url_for('static', filename='js/papaparse.min.js') }}"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+    <!-- Mobile View Warning Banner -->
+    <div
+      id="mobile-warning"
+      style="
+        display: none;
+        background-color: #ffcc00e4;
+        color: #000;
+        padding: 12px 16px;
+        text-align: center;
+        font-weight: 500;
+        font-size: 15px;
+        position: fixed;
+        top: 0;
+        left: 0px;
+        width: 100%;
+        z-index: 9999;
+      "
+    >
+      📱 Mobile view is coming soon. For the best experience, please switch to
+      Desktop Mode.
+    </div>
     <!-- Header / Navbar -->
     <header class="header">
       <a href="#" id="logo" class="logo">Babu Gudoori</a>
@@ -376,6 +397,23 @@
               <h4 style="color: #55a6fd">Click and Explore</h4>
             </div>
           </div>
+          <div class="project-card" data-category="web" onclick="openModal(2)">
+            <div class="card-image">
+              <img
+                src="static/Images/projects/dashboardr-vault.png"
+                alt="DashboardVault"
+              />
+            </div>
+            <h3>Dashboard Vault</h3>
+            <div class="card-content">
+              <h3>Dashboard Vault</h3>
+              <p>
+                Secure Admin-powered platform to upload and showcase Data
+                Analysis Dashboards built with Power BI and Tableau.
+              </p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
 
           <div class="project-card" data-category="web" onclick="openModal(1)">
             <div class="card-image">
@@ -403,6 +441,21 @@
               <h4 style="color: #55a6fd">Click and Explore</h4>
             </div>
           </div>
+          <div class="project-card" data-category="data" onclick="openModal(4)">
+            <div class="card-image">
+              <img
+                src="static/Images/projects/profitanalysis.png"
+                alt="Profit Analysis Dashboard"
+              />
+            </div>
+            <h3>Profit Analysis Dashboard</h3>
+            <div class="card-content">
+              <h3>Profit Analysis Dashboard</h3>
+              <p>Visualizes sales trends and profit insights using Power BI.</p>
+              <h4 style="color: #55a6fd">Click and Explore</h4>
+            </div>
+          </div>
+
           <div class="project-card" data-category="data" onclick="openModal(3)">
             <div class="card-image">
               <img
@@ -784,7 +837,7 @@
     </section>
 
     {% if success == 'true' %}
-    <div class="popup-overlay" id="success-popup" style="display: flex">
+    <div id="success-popup" class="popup-overlay" style="display: flex">
       <div class="popup-content">
         <span class="popup-icon">✅</span>
         <h3>Thank You!</h3>

@@ -138,108 +138,8 @@ function toggleForm(show = true) {
   if (modal) modal.style.display = show ? "flex" : "none";
 }
 
-/*==================== CHATBOT ====================*/
-window.onload = () => {
-  const chatBox = document.getElementById("chat-box");
-  const input = document.getElementById("user-input");
-  const chatbotContainer = document.querySelector(".chatbot-container");
-
-  let hasWelcomed = false;
-
-  window.toggleChatbot = () => {
-    const box = document.getElementById("chatbotBox");
-    const isOpening = box.style.display !== "flex";
-    box.style.display = isOpening ? "flex" : "none";
-
-    // Autoplay welcome message once when opening
-    if (isOpening && !hasWelcomed) {
-      setTimeout(() => {
-        appendMessage(
-          "bot",
-          "👋 Hello! I'm <strong>Riya</strong>, Babu's smart assistant. Ask me anything about his <em>skills, projects, dashboards</em>, or <em>contact info</em>!"
-        );
-      }, 300); // small delay for better UX
-      hasWelcomed = true;
-    }
-  };
-
-  // Send Message to Backend
-  window.sendMessage = async () => {
-    const userText = input.value.trim();
-    if (!userText) return;
-
-    appendMessage("user", userText);
-    input.value = "";
-
-    showTypingIndicator();
-
-    try {
-      const res = await fetch("/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userText }),
-      });
-
-      const data = await res.json();
-      removeTypingIndicator();
-      appendMessage("bot", data.response);
-    } catch (err) {
-      removeTypingIndicator();
-      appendMessage("bot", "❌ Sorry, something went wrong. Try again later.");
-    }
-  };
-
-  // Append Message to Chat
-  function appendMessage(sender, text) {
-    const message = document.createElement("div");
-    message.className = sender === "user" ? "user-msg" : "bot-msg";
-
-    // Fade-in animation
-    message.style.opacity = 0;
-    message.style.transition = "opacity 0.4s ease-in";
-
-    if (sender === "bot") {
-      message.innerHTML = text; // render HTML for bot
-    } else {
-      message.textContent = text;
-    }
-
-    chatBox.appendChild(message);
-
-    // Trigger fade-in
-    setTimeout(() => {
-      message.style.opacity = 1;
-    }, 50);
-
-    // Auto-scroll to bottom
-    chatBox.scrollTo({
-      top: chatBox.scrollHeight,
-      behavior: "smooth",
-    });
-  }
-
-  // Typing indicator
-  function showTypingIndicator() {
-    const typing = document.createElement("div");
-    typing.className = "bot-msg typing-indicator";
-    typing.id = "typing";
-    typing.textContent = "Riya is typing...";
-    chatBox.appendChild(typing);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }
-
-  function removeTypingIndicator() {
-    const typing = document.getElementById("typing");
-    if (typing) typing.remove();
-  }
-
-  // Close chatbot on outside click
-  document.addEventListener("click", (event) => {
-    if (!chatbotContainer.contains(event.target)) {
-      document.getElementById("chatbotBox").style.display = "none";
-    }
-  });
-
+/*==================== hire form  ====================*/
+document.addEventListener("DOMContentLoaded", () => {
   // Dashboard restore (if admin)
   const savedSection = localStorage.getItem("activeSection");
   if (savedSection === "admin-dashboard") {
@@ -259,17 +159,17 @@ window.onload = () => {
 
   // Show success popup
   const successFlag = document.body.dataset.success;
-  if (successFlag === "true") {
-    const popup = document.getElementById("success-popup");
-    if (popup) {
-      popup.style.display = "flex";
-      setTimeout(() => {
-        popup.style.display = "none";
-        window.history.replaceState({}, document.title, "/");
-      }, 3000);
-    }
+  const popup = document.getElementById("success-popup");
+
+  if (successFlag === "true" && popup) {
+    popup.style.display = "flex";
+    setTimeout(() => {
+      popup.style.display = "none";
+      // Remove ?success=true from URL without refreshing
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }, 3000);
   }
-};
+});
 
 /*==================== NAVBAR INTERACTIONS ====================*/
 function toggleMenu() {
@@ -299,8 +199,10 @@ function safeText(text) {
 document.addEventListener("DOMContentLoaded", () => {
   const projects = [
     "/projects/portfolio",
+    "/projects/dashboardvault",
     "/projects/ai-chatbot",
     "/projects/storyland",
+    "/projects/profitanalysis",
     "/projects/cricket",
   ];
 
@@ -409,3 +311,15 @@ function filterProjects(category) {
     }
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileWarning = document.getElementById("mobile-warning");
+
+  // Show only if screen width is less than 768px (typical mobile)
+  if (window.innerWidth <= 768) {
+    mobileWarning.style.display = "block";
+  }
+});
+
+
+

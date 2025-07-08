@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 import os
 import csv
+import random
 
 # ─── Load Environment Variables ─────────────────────────────────────────────────
 load_dotenv()
@@ -29,29 +30,27 @@ FIELDNAMES = ['id', 'name', 'email', 'subject', 'message', 'submitted_at']
 # ─── Utility Functions ──────────────────────────────────────────────────────────
 
 def ensure_csv_headers():
-    """Ensure the CSV file exists and has correct headers, remove malformed lines."""
+    """Ensure the CSV file exists and has correct headers, and remove malformed rows."""
     try:
         if not os.path.exists(CSV_FILE):
             with open(CSV_FILE, mode='w', newline='', encoding='utf-8') as f:
-                csv.DictWriter(f, fieldnames=FIELDNAMES).writeheader()
+                csv.DictWriter(f, fieldnames=FIELDNAMES, quoting=csv.QUOTE_ALL).writeheader()
             return
 
         with open(CSV_FILE, newline='', encoding='utf-8') as f:
             all_rows = list(csv.reader(f))
 
-        valid_data_rows = []
+        valid_rows = []
         for row in all_rows:
-            if row == FIELDNAMES:
-                continue
-            if row[0] == 'id' and row != FIELDNAMES:
+            if row == FIELDNAMES or (row[0] == 'id' and row != FIELDNAMES):
                 continue
             if len(row) == len(FIELDNAMES):
-                valid_data_rows.append(row)
+                valid_rows.append(row)
 
         with open(CSV_FILE, mode='w', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+            writer = csv.DictWriter(f, fieldnames=FIELDNAMES, quoting=csv.QUOTE_ALL)
             writer.writeheader()
-            for row in valid_data_rows:
+            for row in valid_rows:
                 writer.writerow(dict(zip(FIELDNAMES, row)))
 
     except Exception as e:
@@ -59,7 +58,7 @@ def ensure_csv_headers():
 
 
 def get_next_id():
-    """Generate the next unique ID based on existing CSV data."""
+    """Generate the next unique ID."""
     ensure_csv_headers()
     try:
         with open(CSV_FILE, newline='', encoding='utf-8') as f:
@@ -72,7 +71,7 @@ def get_next_id():
 
 
 def is_duplicate_submission(name, email, subject, message):
-    """Check if a submission already exists in the CSV file."""
+    """Prevent duplicate submissions."""
     ensure_csv_headers()
     try:
         with open(CSV_FILE, newline='', encoding='utf-8') as f:
@@ -94,14 +93,14 @@ def is_duplicate_submission(name, email, subject, message):
 
 @app.route('/')
 def index():
-    """Homepage route."""
+    """Render home page with success flag if present."""
     success = request.args.get('success')
     return render_template('index.html', success=success)
 
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    """Form submission handler."""
+    """Handle form submission."""
     name = request.form['name']
     email = request.form['email']
     subject = request.form['subject']
@@ -122,8 +121,10 @@ def submit():
 
         if not is_duplicate_submission(name, email, subject, message):
             with open(CSV_FILE, mode='a', newline='', encoding='utf-8') as f:
-                csv.DictWriter(f, fieldnames=FIELDNAMES).writerow(entry)
+                writer = csv.DictWriter(f, fieldnames=FIELDNAMES, quoting=csv.QUOTE_ALL)
+                writer.writerow(entry)
 
+            # Send email notification
             try:
                 msg = Message(
                     subject=f"New Hire Request from {name}",
@@ -152,7 +153,7 @@ Message: {message}
 
 @app.route('/admin-login', methods=['POST'])
 def admin_login():
-    """Admin login route with credential check."""
+    """Simple admin login."""
     data = request.get_json()
     if (
         data.get("username") == os.getenv("ADMIN_USERNAME") and
@@ -169,13 +170,12 @@ def admin_login():
     return jsonify(success=False)
 
 
-# ─── Simple Chatbot with CSV Dataset ─────────────────────────────────────────────
+# ─── Chatbot Endpoint ───────────────────────────────────────────────────────────
 
 CHATBOT_CSV = os.path.join('static', 'chatbot-dataset.csv')
 chatbot_responses = []
 
 def load_chatbot_dataset():
-    """Load chatbot Q&A pairs from CSV into memory."""
     global chatbot_responses
     try:
         with open(CHATBOT_CSV, newline='', encoding='utf-8') as f:
@@ -186,11 +186,9 @@ def load_chatbot_dataset():
         chatbot_responses = []
 
 load_chatbot_dataset()
-import random
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    """Chatbot route: match user input against CSV questions and return answers."""
     user_input = request.json.get("message", "").lower().strip()
 
     for row in chatbot_responses:
@@ -199,7 +197,6 @@ def chat():
             answer = row.get("answer", "I'm eager to learn more and get back to you soon!")
             return jsonify(response=f"{answer} 😊 If you want to know anything else, just ask!")
 
-    # Polished fallback responses to add variety and warmth
     fallback_responses = [
         "I’m eager to learn more and get back to you soon! Meanwhile, feel free to ask me about Babu’s skills, projects, or contact info. 😊",
         "Hmm, I’m not quite sure about that yet. But I’m always learning! Ask me anything about Babu’s work or how to get in touch. 🌟",
@@ -216,11 +213,17 @@ def chat():
 def show_portfolio_project():
     return render_template('projects/portfolio.html')
 
+@app.route('/projects/dashboardvault')
+def show_dashboardvault_project():
+    return render_template('projects/dashboardvault.html')
 
 @app.route('/projects/ai-chatbot')
 def show_aichatbot_project():
     return render_template('projects/ai-chatbot.html')
 
+@app.route('/projects/profitanalysis')
+def show_profitanalysis_project():
+    return render_template('projects/profitanalysis.html')
 
 @app.route('/projects/storyland')
 def show_aiagent_project():
@@ -229,6 +232,7 @@ def show_aiagent_project():
 @app.route('/projects/cricket')
 def show_cricket_project():
     return render_template('projects/cricket.html')
+
 
 # ─── Run Server ─────────────────────────────────────────────────────────────────
 
