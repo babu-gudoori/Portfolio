@@ -41,4 +41,4 @@ learning tracker || progress tracker,"<p>Track your learning journey & skills:</
 mobile usage dashboard || screen time tracker,"<p>See app usage & screen time patterns:</p><a href='https://data-analysis-dashboards-vault-2.onrender.com/' class='chat-btn' target='_blank'>📱 Mobile Usage</a>"
 cricket dashboard || odi dashboard,"🏏 This project is under development. Stay tuned!"
 
-show all projects || list projects,"<p>Here's a list of Babu's top projects:</p><ul><li>🌐 Portfolio Website</li><li>🤖 AI Chatbot</li><li>📊 Dashboard Vault</li><li>📈 Profit Analysis</li><li>💰 Expense Tracker</li></ul><a href='#' class='chat-btn' onclick=""showSection('projects')"">🔍 View Projects Section</a>"
+projects || show all projects || list projects,"<p>Here's a list of Babu's top projects:</p><ul><li>🌐 Portfolio Website</li><li>🤖 AI Chatbot</li><li>📊 Dashboard Vault</li><li>📈 Profit Analysis</li><li>💰 Expense Tracker</li></ul><a href='#' class='chat-btn' onclick=""showSection('projects')"">🔍 View Projects Section</a>"
