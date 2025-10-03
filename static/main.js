@@ -201,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "/projects/portfolio",
     "/projects/dashboardvault",
     "/projects/ai-chatbot",
-    "/projects/storyland",
     "/projects/profitanalysis",
     "/projects/cricket",
   ];
