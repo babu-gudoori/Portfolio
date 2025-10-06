@@ -1225,21 +1225,22 @@ contact-section -end
 /*=======================================
         skills-section-strart
 =========================================*/
-.skills {
+.skills { 
   padding: 100px 20px 60px;
   scroll-margin-top: 100px;
   box-sizing: border-box;
   max-width: 100%;
   overflow-x: hidden;
+  text-align: center; /* keeps headings centered */
 }
 
 .skills-grid {
   max-width: 1200px;
+  margin: 0 auto; /* centers the whole grid horizontally */
   display: grid;
-  grid-template-columns: repeat(5, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* responsive */
   gap: 25px;
-
-  /* Your existing .skill-card styles and animations can remain */
+  justify-content: center; /* ensures cards are centered inside grid */
 }
 
 .section-heading {
@@ -1268,30 +1269,44 @@ contact-section -end
 
 .h4 {
   color: #000;
+  
 }
 
 .skill-card {
+  position: relative; /* required for pseudo-element */
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
   padding: 25px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  /* Animation properties */
   opacity: 0;
   animation: popInCenter 0.6s ease-out forwards;
+  overflow: hidden;
 }
-.skill-card {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-  padding: 25px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  /* Animation properties */
-  opacity: 0;
-  animation: popInCenter 0.6s ease-out forwards;
+/* Yellow top accent behind the heading */
+.skill-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* adjust height to cover heading */
+  background: #facc15; /* yellow color */
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  z-index: 0;
 }
+
+/* Make heading appear above the yellow bar */
+.skill-card h4 {
+  position: relative;
+  font-size: larger;
+  z-index: 1;
+  margin: 0 0 15px 0; /* spacing below heading */
+  padding: 5px 0; /* optional: adjust vertical padding */
+}
+
 
 .skill-card:hover {
   transform: translateY(-6px);
@@ -1391,6 +1406,30 @@ contact-section -end
     font-size: 2rem;
   }
 }
+
+
+
+  .overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: 600;
+  font-size: 30px;
+  background: rgba(0, 0, 0, 0.7); /* slight transparency for nice look */
+  padding: 6px 10px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* so cursor interacts with image, not text */
+}
+
+.icon-item:hover .overlay {
+  opacity: 1; /* 1 = fully visible */
+}
+
+
 
 /*===========================================
         skills-section-end
